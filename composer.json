@@ -1,0 +1,24 @@
+{
+  "name": "softwarepunt/phonehome",
+  "description": "Software Punt module for remote monitoring and customer service utilities",
+  "type": "library",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Roy de Jong",
+      "email": "roy@softwarepunt.nl"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9"
+  },
+  "autoload": {
+    "psr-4": {
+      "SoftwarePunt\\PhoneHome\\": "src/"
+    }
+  }
+}
