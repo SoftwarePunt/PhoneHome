@@ -3,3 +3,6 @@ vendor/
 
 # Artifacts
 .phpunit.result.cache
+
+# Test
+/test.php
