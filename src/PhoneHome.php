@@ -31,7 +31,7 @@ class PhoneHome
         return [
             'token' => $this->token,
             'time' => time(),
-            'environment' => (new EnvironmentInfo($_SERVER)),
+            'environment' => (new EnvironmentInfo()),
             'network' => (new NetworkInfo())
         ];
     }
