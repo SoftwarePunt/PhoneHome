@@ -75,8 +75,6 @@ class PhoneHome
             'timeout' => $this->timeout
         ]);
 
-        echo json_encode($this->makeJsonPayload()) . PHP_EOL;
-
         $response = $client->request('POST', '/api/etph', [
             'json' => $this->makeJsonPayload()
         ]);

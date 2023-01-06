@@ -15,7 +15,6 @@ class EnvironmentInfo implements \JsonSerializable
             'os' => PHP_OS,
             'os_uname' => php_uname(),
             'php_version' => phpversion(),
-            'sapi_name' => php_sapi_name(),
             'cwd' => getcwd()
         ];
     }

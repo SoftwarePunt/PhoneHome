@@ -11,23 +11,27 @@ class GitVersionInfo implements \JsonSerializable
         $this->tryGetGitVersion();
     }
 
-    private function tryGetGitVersion()
+    private function tryGetGitVersion(): void
     {
-        $this->gitInfo = [];
+        try {
+            $this->gitInfo = [];
 
-        $logHeadHashResult = exec('git log --pretty="%h" -n1 HEAD');
-        $logHeadDateResult = exec('git log -n1 --pretty=%ci HEAD');
+            $logHeadHashResult = exec('git log --pretty="%h" -n1 HEAD');
+            $logHeadDateResult = exec('git log -n1 --pretty=%ci HEAD');
 
-        if ($logHeadHashResult) {
-            $this->gitInfo['hash'] = trim($logHeadHashResult);
-        }
+            if ($logHeadHashResult) {
+                $this->gitInfo['hash'] = trim($logHeadHashResult);
+            }
 
-        if ($logHeadDateResult) {
-            try {
-                $commitDate = new \DateTime(trim($logHeadDateResult));
-                $commitDate->setTimezone(new \DateTimeZone('UTC'));
-                $this->gitInfo['date'] = $commitDate->format('r');
-            } catch (\Exception) { }
+            if ($logHeadDateResult) {
+                try {
+                    $commitDate = new \DateTime(trim($logHeadDateResult));
+                    $commitDate->setTimezone(new \DateTimeZone('UTC'));
+                    $this->gitInfo['date'] = $commitDate->format('r');
+                } catch (\Exception) {
+                }
+            }
+        } catch (\Exception) {
         }
     }
 
