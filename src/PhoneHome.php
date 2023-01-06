@@ -4,6 +4,8 @@ namespace SoftwarePunt\PhoneHome;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use SoftwarePunt\PhoneHome\InfoProviders\EnvironmentInfo;
+use SoftwarePunt\PhoneHome\InfoProviders\NetworkInfo;
 
 class PhoneHome
 {
@@ -29,7 +31,8 @@ class PhoneHome
         return [
             'token' => $this->token,
             'time' => time(),
-            'environment' => (new EnvironmentInfo($_SERVER))
+            'environment' => (new EnvironmentInfo($_SERVER)),
+            'network' => (new NetworkInfo())
         ];
     }
 

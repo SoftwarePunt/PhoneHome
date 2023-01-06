@@ -1,6 +1,6 @@
 <?php
 
-namespace SoftwarePunt\PhoneHome;
+namespace SoftwarePunt\PhoneHome\InfoProviders;
 
 class EnvironmentInfo implements \JsonSerializable
 {
