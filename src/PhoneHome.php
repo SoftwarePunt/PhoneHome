@@ -85,8 +85,9 @@ class PhoneHome
             throw new \RuntimeException("Unexpected status code in response: {$response->getStatusCode()}");
         }
 
-        if ($response->getBody()->getContents() !== "👍") {
-            throw new \RuntimeException("Invalid response body from server");
+        $responseBody = $response->getBody()->getContents();
+        if ($responseBody !== "👍") {
+            throw new \RuntimeException("Invalid response body from server: {$responseBody}");
         }
     }
 }
