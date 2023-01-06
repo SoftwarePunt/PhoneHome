@@ -26,7 +26,7 @@ class GitVersionInfo implements \JsonSerializable
             try {
                 $commitDate = new \DateTime(trim($logHeadDateResult));
                 $commitDate->setTimezone(new \DateTimeZone('UTC'));
-                $this->gitInfo['date'] = $commitDate;
+                $this->gitInfo['date'] = $commitDate->format('r');
             } catch (\Exception) { }
         }
     }
