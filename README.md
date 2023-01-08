@@ -19,12 +19,17 @@ Use the `PhoneHome` client to send a ping to the receiving API:
 ```php
 use SoftwarePunt\PhoneHome\PhoneHome;
 
-(new PhoneHome())
+$response = (new PhoneHome())
     ->setApiBaseUrl("https://sample.api.com/")
     ->setToken("set_api_token")
     ->setTimeout(30)
     ->send();
+
+if ($response?->sla?->active)
+    echo "Have active SLA!";
 ```
+
+The server response will include SLA details if applicable to the caller.
 
 ## Providers
 The following information is currently collected and sent:

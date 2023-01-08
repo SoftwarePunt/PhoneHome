@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use SoftwarePunt\PhoneHome\InfoProviders\EnvironmentInfo;
 use SoftwarePunt\PhoneHome\InfoProviders\GitVersionInfo;
 use SoftwarePunt\PhoneHome\InfoProviders\NetworkInfo;
+use SoftwarePunt\PhoneHome\Models\PhoneHomeResponse;
 
 class PhoneHome
 {
@@ -65,10 +66,13 @@ class PhoneHome
     /**
      * ET will home phone when you call this.
      *
-     * @throws GuzzleException
-     * @throws \RuntimeException
+     * Sends a ping to the configured API endpoint, and returns the server response, if any.
+     *
+     * @throws GuzzleException In case of request error.
+     * @throws \RuntimeException In case of response error.
+     * @return PhoneHomeResponse|null The parsed response from the server, or NULL if the response was empty or invalid.
      */
-    public function send(): void
+    public function send(): ?PhoneHomeResponse
     {
         $client = new Client([
             'base_uri' => $this->apiBaseUrl,
@@ -83,9 +87,6 @@ class PhoneHome
             throw new \RuntimeException("Unexpected status code in response: {$response->getStatusCode()}");
         }
 
-        $responseBody = $response->getBody()->getContents();
-        if ($responseBody !== "👍") {
-            throw new \RuntimeException("Invalid response body from server: {$responseBody}");
-        }
+        return PhoneHomeResponse::tryParseFromStream($response->getBody());
     }
 }
