@@ -36,7 +36,7 @@ The following information is currently collected and sent:
 
 ### Environment
  - Server hostname
- - OS type and version
+ - OS type and version (e.g. `Ubuntu 20.04.5 LTS (Focal Fossa) (Linux 4.15.0-184-generic x86_64)`)
  - PHP version
  - Working directory
 
