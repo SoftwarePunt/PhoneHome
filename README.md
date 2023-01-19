@@ -1,7 +1,11 @@
 # PhoneHome
 **Software Punt module for remote monitoring and customer service utilities.**
 
-This library provides "phone home" functionality for the Software Punt portal. It is intended for managed services and SLA customers.
+This library provides "phone home" functionality for Software Punt projects. It is intended for managed services and SLA customers.
+
+🪟 This project is open-source so we can be transparent about what data is collected and sent to our servers for monitoring purposes.
+
+✉️ If you have any questions, contact us at [support@softwarepunt.nl](mailto:support@softwarepunt.nl).
 
 ## Installation
 Install the package using [Composer](https://getcomposer.org/):
@@ -31,6 +35,8 @@ if ($response?->sla?->active)
 
 The server response will include SLA details if applicable to the caller.
 
+A ping should be sent every minute or so for monitoring purposes. This is typically performed by a background task or cronjob.
+
 ## Providers
 The following information is currently collected and sent:
 
@@ -47,3 +53,8 @@ The following information is currently collected and sent:
 ### Git version
  - Commit hash
  - Commit date/time
+
+### Installed software versions
+ - nginx
+ - MySQL Server
+ - Redis Server

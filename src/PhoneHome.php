@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use SoftwarePunt\PhoneHome\InfoProviders\EnvironmentInfo;
 use SoftwarePunt\PhoneHome\InfoProviders\GitVersionInfo;
 use SoftwarePunt\PhoneHome\InfoProviders\NetworkInfo;
+use SoftwarePunt\PhoneHome\InfoProviders\SoftwareInfo;
 use SoftwarePunt\PhoneHome\Models\PhoneHomeResponse;
 
 class PhoneHome
@@ -35,7 +36,8 @@ class PhoneHome
             'time' => time(),
             'environment' => (new EnvironmentInfo()),
             'network' => (new NetworkInfo()),
-            'git' => (new GitVersionInfo())
+            'git' => (new GitVersionInfo()),
+            'software' => (new SoftwareInfo())
         ];
     }
 
