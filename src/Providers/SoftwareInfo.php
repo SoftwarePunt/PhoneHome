@@ -16,7 +16,8 @@ class SoftwareInfo implements \JsonSerializable
         $this->versionInfos = [
             'nginx' => self::getShellResult('nginx -v', prefixRemove: 'nginx version:'),
             'mysql' => self::getShellResult('mysqld --version') ?? self::getShellResult('mysql --version'),
-            'redis' => self::getShellResult('redis-server --version')
+            'redis' => self::getShellResult('redis-server --version'),
+            'dotnet' => self::getShellResult('dotnet --version'),
         ];
     }
 
@@ -24,7 +25,7 @@ class SoftwareInfo implements \JsonSerializable
     {
         $result = @shell_exec($shellCommand . ' 2>&1');
 
-        if (str_contains($result, ": not found"))
+        if (str_contains($result, ": not found") || str_contains($result, "can be installed"))
             return null;
 
         if ($prefixRemove)
