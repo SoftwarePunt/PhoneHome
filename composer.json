@@ -21,5 +21,8 @@
     "psr-4": {
       "SoftwarePunt\\PhoneHome\\": "src/"
     }
-  }
+  },
+  "bin": [
+    "bin/sp-phone-home"
+  ]
 }

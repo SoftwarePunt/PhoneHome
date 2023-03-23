@@ -1,0 +1,74 @@
+#!/usr/bin/env php
+<?php
+
+use SoftwarePunt\PhoneHome\PhoneHome;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Autoloader
+
+$files = [
+    __DIR__ . '/../../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../../../../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+];
+
+foreach ($files as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        break;
+    }
+}
+
+if (!class_exists('Composer\Autoload\ClassLoader')) {
+    echo "Error: Could not load composer autoloader" . PHP_EOL;
+    exit(1);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Input
+
+$apiBaseUrl = getenv('BASE_URL');
+$apiToken = getenv('TOKEN');
+
+if (!$apiBaseUrl)
+    $apiBaseUrl = 'https://portal.softwarepunt.nl/';
+
+if (!$apiToken) {
+    echo "Error: Missing API token (set TOKEN env var)." . PHP_EOL;
+    exit(2);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Request
+
+$ph = new PhoneHome();
+
+echo "Phoning home (baseUrl={$apiBaseUrl})... " . PHP_EOL . PHP_EOL;
+echo json_encode($ph->makeJsonPayload()) . PHP_EOL . PHP_EOL;
+
+$response = $ph
+    ->setApiBaseUrl($apiBaseUrl)
+    ->setToken($apiToken)
+    ->setTimeout(2)
+    ->send();
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Response
+
+if (!$response) {
+    echo "Error: Request error or empty response." . PHP_EOL;
+    exit(1);
+}
+
+if (!$response->ok) {
+    echo "Server: Request rejected (invalid request or authentication error)." . PHP_EOL;
+    exit(1);
+}
+
+if ($response->sla?->active) {
+    echo "Server: OK - Have active SLA (ref: {$response->sla->reference})." . PHP_EOL;
+} else {
+    echo "Server: OK - No active SLA." . PHP_EOL;
+}
+exit(0);
