@@ -15,7 +15,7 @@ class SoftwareInfo implements \JsonSerializable
     {
         $this->versionInfos = [
             'nginx' => self::getShellResult('nginx -v', prefixRemove: 'nginx version:'),
-            'mysql' => self::getShellResult('mysql --version'),
+            'mysql' => self::getShellResult('mysqld --version') ?? self::getShellResult('mysql --version'),
             'redis' => self::getShellResult('redis-server --version')
         ];
     }
