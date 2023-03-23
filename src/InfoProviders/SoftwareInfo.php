@@ -14,7 +14,7 @@ class SoftwareInfo implements \JsonSerializable
     private function collectVersionInfo(): void
     {
         $this->versionInfos = [
-            'nginx' => self::getShellResult('nginx -version', prefixRemove: 'nginx version:'),
+            'nginx' => self::getShellResult('nginx -v', prefixRemove: 'nginx version:'),
             'mysql' => self::getShellResult('mysql --version'),
             'redis' => self::getShellResult('redis-server --version')
         ];
