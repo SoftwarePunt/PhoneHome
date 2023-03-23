@@ -32,7 +32,7 @@ $apiBaseUrl = getenv('BASE_URL');
 $apiToken = getenv('TOKEN');
 
 if (!$apiBaseUrl)
-    $apiBaseUrl = 'https://portal.softwarepunt.nl/';
+    $apiBaseUrl = PhoneHome::DefaultApiBaseUrl;
 
 if (!$apiToken) {
     echo "Error: Missing API token (set TOKEN env var)." . PHP_EOL;

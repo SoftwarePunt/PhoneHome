@@ -1,6 +1,6 @@
 <?php
 
-namespace SoftwarePunt\PhoneHome\InfoProviders;
+namespace SoftwarePunt\PhoneHome\Providers;
 
 class SoftwareInfo implements \JsonSerializable
 {

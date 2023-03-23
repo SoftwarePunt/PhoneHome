@@ -4,16 +4,16 @@ namespace SoftwarePunt\PhoneHome;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use SoftwarePunt\PhoneHome\InfoProviders\EnvironmentInfo;
-use SoftwarePunt\PhoneHome\InfoProviders\GitVersionInfo;
-use SoftwarePunt\PhoneHome\InfoProviders\NetworkInfo;
-use SoftwarePunt\PhoneHome\InfoProviders\SoftwareInfo;
 use SoftwarePunt\PhoneHome\Models\PhoneHomeResponse;
+use SoftwarePunt\PhoneHome\Providers\EnvironmentInfo;
+use SoftwarePunt\PhoneHome\Providers\GitVersionInfo;
+use SoftwarePunt\PhoneHome\Providers\NetworkInfo;
+use SoftwarePunt\PhoneHome\Providers\SoftwareInfo;
 
 class PhoneHome
 {
-    private const DefaultApiBaseUrl = "https://portal.softwarepunt.nl/api";
-    private const DefaultTimeout = 10;
+    public const DefaultApiBaseUrl = "https://portal.softwarepunt.nl/api";
+    public const DefaultTimeout = 10;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Common
