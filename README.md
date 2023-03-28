@@ -56,5 +56,9 @@ The following information is currently collected and sent:
 
 ### Installed software versions
  - nginx
- - MySQL Server
- - Redis Server
+ - MySQL Server (`mysqld`)
+ - Redis Server (`redis-server`)
+ - .NET Runtime / SDK (`dotnet`)
+ - Python (`python`)
+ - Node.JS (`node`)
+ - Composer (`composer`)

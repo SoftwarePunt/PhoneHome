@@ -20,6 +20,7 @@ class SoftwareInfo implements \JsonSerializable
             'dotnet' => self::getShellResult('dotnet --version'),
             'python' => self::getShellResult('python --version') ?? self::getShellResult('python3 --version'),
             'nodejs' => self::getShellResult('node --version'),
+            'composer' => self::getShellResult('composer --version')
         ];
     }
 
