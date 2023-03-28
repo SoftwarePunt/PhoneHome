@@ -62,3 +62,4 @@ The following information is currently collected and sent:
  - Python (`python`)
  - Node.JS (`node`)
  - Composer (`composer`)
+ - OpenSSL (`openssl`)

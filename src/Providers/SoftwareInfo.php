@@ -20,7 +20,8 @@ class SoftwareInfo implements \JsonSerializable
             'dotnet' => self::getShellResult('dotnet --version'),
             'python' => self::getShellResult('python --version') ?? self::getShellResult('python3 --version'),
             'nodejs' => self::getShellResult('node --version'),
-            'composer' => self::getShellResult('COMPOSER_ALLOW_SUPERUSER=1 composer --version')
+            'composer' => self::getShellResult('COMPOSER_ALLOW_SUPERUSER=1 composer --version'),
+            'openssl' => self::getShellResult('openssl version'),
         ];
     }
 
