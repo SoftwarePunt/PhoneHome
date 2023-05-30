@@ -8,6 +8,7 @@ This library provides "phone home" functionality for Software Punt projects. It 
 ✉️ If you have any questions, contact us at [support@softwarepunt.nl](mailto:support@softwarepunt.nl).
 
 ## Installation
+
 Install the package using [Composer](https://getcomposer.org/):
 
 ```bash
@@ -36,6 +37,19 @@ if ($response?->sla?->active)
 The server response will include SLA details if applicable to the caller.
 
 A ping should be sent every minute or so for monitoring purposes. This is typically performed by a background task or cronjob.
+
+## Standalone installation
+You can set up PhoneHome as a standalone application without integrating it into existing software.
+
+To do so, install it as a global composer package:
+```bash
+composer global require softwarepunt/phonehome
+```
+
+Then set up a cron job to run every minute (`crontab` example):
+```bash
+* * * * * (cd /root/.config/composer/vendor/softwarepunt/phonehome; TOKEN=SET_ME /root/.config/composer/vendor/bin/sp-phone-home)
+```
 
 ## Providers
 The following information is currently collected and sent:
