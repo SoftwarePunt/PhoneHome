@@ -15,7 +15,8 @@ class EnvironmentInfo implements \JsonSerializable
             'os' => PHP_OS,
             'os_banner' => self::getOsBanner(),
             'php_version' => phpversion(),
-            'cwd' => getcwd()
+            'cwd' => getcwd(),
+            'reboot_required' => self::getRebootRequired()
         ];
     }
 
@@ -54,5 +55,12 @@ class EnvironmentInfo implements \JsonSerializable
         }
 
         return $data;
+    }
+
+    private static function getRebootRequired(): bool
+    {
+        return @file_exists('/run/reboot-required')
+            || @file_exists('/run/reboot-required.pkgs')
+            || @file_exists('/var/run/reboot-required');
     }
 }
