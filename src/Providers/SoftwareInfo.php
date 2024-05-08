@@ -20,12 +20,12 @@ class SoftwareInfo implements \JsonSerializable
             'dotnet' => self::getShellResult('dotnet --version'),
             'python' => self::getShellResult('python --version') ?? self::getShellResult('python3 --version'),
             'nodejs' => self::getShellResult('node --version'),
-            'composer' => self::getShellResult('COMPOSER_ALLOW_SUPERUSER=1 composer --version'),
+            'composer' => self::getShellResult('COMPOSER_ALLOW_SUPERUSER=1 composer --version', onlyFirstLine: true),
             'openssl' => self::getShellResult('openssl version'),
         ];
     }
 
-    private static function getShellResult(string $shellCommand, ?string $prefixRemove = ""): ?string
+    private static function getShellResult(string $shellCommand, ?string $prefixRemove = "", bool $onlyFirstLine = false): ?string
     {
         $result = @shell_exec($shellCommand . ' 2>&1');
 
@@ -34,6 +34,9 @@ class SoftwareInfo implements \JsonSerializable
 
         if ($prefixRemove)
             $result = str_replace($prefixRemove, '', $result);
+
+        if ($onlyFirstLine)
+            $result = explode("\n", $result)[0];
 
         return trim($result);
     }
