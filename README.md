@@ -43,7 +43,7 @@ You can set up PhoneHome as a standalone application without integrating it into
 
 To do so, install it as a global composer package:
 ```bash
-composer global require softwarepunt/phonehome
+composer global require softwarepunt/phonehome --prefer-install=source
 ```
 
 Then set up a cron job to run every minute (`crontab` example):
