@@ -15,7 +15,7 @@ Install the package using [Composer](https://getcomposer.org/):
 composer require softwarepunt/phonehome
 ```
 
-This package is compatible with PHP 8.3+.
+This package is compatible with PHP 8.2+.
 
 ## Usage
 
@@ -60,6 +60,7 @@ The following information is currently collected and sent:
  - PHP version
  - Working directory
  - Reboot required flag
+ - Mounted storage devices and their capacity / usage
 
 ### Network
  - Public (WAN) address

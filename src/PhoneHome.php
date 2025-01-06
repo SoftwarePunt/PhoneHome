@@ -9,6 +9,7 @@ use SoftwarePunt\PhoneHome\Providers\EnvironmentInfo;
 use SoftwarePunt\PhoneHome\Providers\GitVersionInfo;
 use SoftwarePunt\PhoneHome\Providers\NetworkInfo;
 use SoftwarePunt\PhoneHome\Providers\SoftwareInfo;
+use SoftwarePunt\PhoneHome\Providers\StorageInfo;
 
 class PhoneHome
 {
@@ -37,7 +38,8 @@ class PhoneHome
             'environment' => (new EnvironmentInfo()),
             'network' => (new NetworkInfo()),
             'git' => (new GitVersionInfo()),
-            'software' => (new SoftwareInfo())
+            'software' => (new SoftwareInfo()),
+            'storage' => (new StorageInfo())
         ];
     }
 
