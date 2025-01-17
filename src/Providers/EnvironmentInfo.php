@@ -29,7 +29,7 @@ class EnvironmentInfo implements \JsonSerializable
         $parts = [
             ucfirst($releaseInfo['DISTRIB_ID'] ?? $releaseInfo['NAME'] ?? $releaseInfo['ID'] ?? "Unknown"),
             $releaseInfo['VERSION'] ?? $releaseInfo['VERSION_ID'] ?? "(Unknown Version)",
-            "(Linux " . php_uname('rm') . ")"
+            "(Linux " . php_uname('r') . ")"
         ];
         return implode(' ', $parts);
     }
