@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+// Check required extension
+if (!extension_loaded('pcntl')) {
+    echo "Loop script cannot run without pcntl extension" . PHP_EOL;
+    exit(1);
+}
+
+// Listen for SIGINT, it may interrupt main loop
+$wasInterrupted = false;
+
+pcntl_signal(SIGINT, function() use (&$wasInterrupted) {
+    $wasInterrupted = true;
+});
+
+// Main loop, every minute
+const IntervalMicroseconds = 60 * 1000000;
+const SleepSteps = 100;
+const MicrosecondsPerStep = IntervalMicroseconds / SleepSteps;
+
+$stepsRemaining = 0;
+while (true) {
+    pcntl_signal_dispatch();
+
+    if ($wasInterrupted) {
+        echo "INTERRUPT: Shutting down! Bye..." . PHP_EOL;
+        exit(0);
+    }
+
+    if ($stepsRemaining-- <= 0) {
+        // Trigger
+        $execPath = realpath(__DIR__ . "/sp-phone-home");
+        echo shell_exec("php $execPath");
+
+        // Reset
+        $stepsRemaining = SleepSteps;
+    }
+
+    usleep(MicrosecondsPerStep);
+}
