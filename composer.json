@@ -23,6 +23,7 @@
     }
   },
   "bin": [
-    "bin/sp-phone-home"
+    "bin/sp-phone-home",
+    "bin/sp-phone-home-loop"
   ]
 }
