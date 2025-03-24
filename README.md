@@ -41,6 +41,13 @@ A ping should be sent every minute or so for monitoring purposes. This is typica
 ## Standalone installation
 You can set up PhoneHome as a standalone application without integrating it into existing software.
 
+> [!NOTE]  
+> We strongly recommend running under a user with limited privileges. These examples target `www-data` with `/var/www/` as home directory:
+> 
+> ```
+> sudo su www-data -s /bin/bash
+> ```
+
 To do so, install it as a global composer package:
 ```bash
 composer global require softwarepunt/phonehome --prefer-install=source
@@ -48,7 +55,7 @@ composer global require softwarepunt/phonehome --prefer-install=source
 
 Then set up a cron job to run every minute (`crontab` example):
 ```bash
-* * * * * (cd /root/.config/composer/vendor/softwarepunt/phonehome; TOKEN=SET_ME /root/.config/composer/vendor/bin/sp-phone-home)
+* * * * * (cd /var/www/.config/composer/vendor/softwarepunt/phonehome; TOKEN=SET_ME /var/www/.config/composer/vendor/bin/sp-phone-home)
 ```
 
 ## Providers
@@ -56,7 +63,7 @@ The following information is currently collected and sent:
 
 ### Environment
  - Server hostname
- - OS type and version (e.g. `Ubuntu 20.04.5 LTS (Focal Fossa) (Linux 4.15.0-184-generic x86_64)`)
+ - OS type and version (e.g. `Ubuntu 24.04.2 LTS (Noble Numbat) (Linux 6.8.0-55-generic)`)
  - PHP version
  - Working directory
  - Reboot required flag
