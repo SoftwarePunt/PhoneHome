@@ -70,7 +70,7 @@ The following information is currently collected and sent:
  - Mounted storage devices and their capacity / usage
 
 ### Network
- - Public (WAN) address
+ - Public/outgoing (WAN) address, IPv4 and IPv6
  - Private address
 
 ### Git version

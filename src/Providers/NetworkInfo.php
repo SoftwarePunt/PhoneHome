@@ -5,7 +5,8 @@ namespace SoftwarePunt\PhoneHome\Providers;
 class NetworkInfo implements \JsonSerializable
 {
     private ?string $localAddr;
-    private ?string $wanAddr;
+    private ?string $wanAddrIpv4;
+    private ?string $wanAddrIpv6;
 
     public function __construct()
     {
@@ -31,17 +32,27 @@ class NetworkInfo implements \JsonSerializable
     private function tryDetermineWanAddr(): void
     {
         try {
-            $this->wanAddr = @file_get_contents("https://checkip.amazonaws.com/");
-            if (!$this->wanAddr) {
-                $this->wanAddr = @file_get_contents("https://icanhazip.com/");
-            }
+            $this->wanAddrIpv4 = @file_get_contents('https://ipv4.icanhazip.com/');
         } catch (\Exception) {
+            $this->wanAddrIpv4 = null;
         }
 
-        if (!empty($this->wanAddr)) {
-            $this->wanAddr = trim($this->wanAddr);
+        try {
+            $this->wanAddrIpv6 = @file_get_contents('https://ipv6.icanhazip.com/');
+        } catch (\Exception) {
+            $this->wanAddrIpv6 = null;
+        }
+
+        if (!empty($this->wanAddrIpv4)) {
+            $this->wanAddrIpv4 = trim($this->wanAddrIpv4);
         } else {
-            $this->wanAddr = null;
+            $this->wanAddrIpv4 = null;
+        }
+
+        if (!empty($this->wanAddrIpv6)) {
+            $this->wanAddrIpv6 = trim($this->wanAddrIpv6);
+        } else {
+            $this->wanAddrIpv6 = null;
         }
     }
 
@@ -49,7 +60,8 @@ class NetworkInfo implements \JsonSerializable
     {
         return [
             'local_addr' => $this->localAddr,
-            'wan_addr' => $this->wanAddr
+            'wan_addr' => $this->wanAddrIpv4,
+            'wan_addr_ipv6' => $this->wanAddrIpv6
         ];
     }
 }
