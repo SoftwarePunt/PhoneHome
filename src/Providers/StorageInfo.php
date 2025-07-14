@@ -28,6 +28,8 @@ class StorageInfo implements \JsonSerializable
                     continue;
 
                 $mountPoint = $parts[1];
+                $fileSystemType = $parts[2];
+                $mountOptions = $parts[3];
 
                 $total = disk_total_space($mountPoint);
                 $free = disk_free_space($mountPoint);
@@ -36,6 +38,8 @@ class StorageInfo implements \JsonSerializable
 
                 $devices[] = [
                     'device' => $device,
+                    'filesystem' => $fileSystemType,
+                    'options' => $mountOptions,
                     'mount' => $mountPoint,
                     'total' => $total,
                     'free' => $free,
