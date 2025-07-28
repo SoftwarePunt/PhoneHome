@@ -27,13 +27,13 @@ final class PhoneHome
      */
     private array $statusMonitors;
 
-    public function __construct(private string $apiBaseUrl,
-                                private string $token,
-                                private int    $timeout)
+    public function __construct(private string $apiBaseUrl = self::API_BASE_URL_DEFAULT,
+                                private string $token = "",
+                                private int    $timeout = self::TIMEOUT_SECONDS_DEFAULT)
     {
-        $this->setApiBaseUrl(self::API_BASE_URL_DEFAULT);
-        $this->setToken("");
-        $this->setTimeout(self::TIMEOUT_SECONDS_DEFAULT);
+        $this->setApiBaseUrl($apiBaseUrl);
+        $this->setToken($token);
+        $this->setTimeout($timeout);
         $this->statusMonitors = [];
     }
 
