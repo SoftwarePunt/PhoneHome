@@ -15,9 +15,9 @@ pcntl_signal(SIGINT, function() use (&$wasInterrupted) {
 });
 
 // Main loop, every minute
-const IntervalMicroseconds = 60 * 1000000;
-const SleepSteps = 100;
-const MicrosecondsPerStep = IntervalMicroseconds / SleepSteps;
+const INTERVAL_MICROSECONDS = 60 * 1000000;
+const SLEEP_STEPS = 100;
+const MICROSECONDS_PER_STEP = INTERVAL_MICROSECONDS / SLEEP_STEPS;
 
 $stepsRemaining = 0;
 while (true) {
@@ -34,8 +34,8 @@ while (true) {
         echo shell_exec("php $execPath");
 
         // Reset
-        $stepsRemaining = SleepSteps;
+        $stepsRemaining = SLEEP_STEPS;
     }
 
-    usleep(MicrosecondsPerStep);
+    usleep(MICROSECONDS_PER_STEP);
 }

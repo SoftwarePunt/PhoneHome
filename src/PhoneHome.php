@@ -13,8 +13,8 @@ use SoftwarePunt\PhoneHome\Providers\StorageInfo;
 
 class PhoneHome
 {
-    public const DefaultApiBaseUrl = "https://portal.softwarepunt.nl/api";
-    public const DefaultTimeout = 10;
+    public const string API_BASE_URL_DEFAULT = "https://portal.softwarepunt.nl/api";
+    public const float TIMEOUT_SECONDS_DEFAULT = 10.0;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Common
@@ -25,9 +25,9 @@ class PhoneHome
 
     public function __construct()
     {
-        $this->setApiBaseUrl(self::DefaultApiBaseUrl);
+        $this->setApiBaseUrl(self::API_BASE_URL_DEFAULT);
         $this->setToken("");
-        $this->setTimeout(self::DefaultTimeout);
+        $this->setTimeout(self::TIMEOUT_SECONDS_DEFAULT);
     }
 
     public function makeJsonPayload(): array
