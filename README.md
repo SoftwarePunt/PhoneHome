@@ -15,7 +15,7 @@ Install the package using [Composer](https://getcomposer.org/):
 composer require softwarepunt/phonehome
 ```
 
-This package is compatible with PHP 8.2+.
+This package is compatible with PHP 8.3+.
 
 ## Usage
 
@@ -86,3 +86,7 @@ The following information is currently collected and sent:
  - Node.JS (`node`)
  - Composer (`composer`)
  - OpenSSL (`openssl`)
+
+### Status monitors
+
+Project specific status monitors can be registered to collect additional information. The results of these monitors will be included in the collected data.

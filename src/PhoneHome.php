@@ -10,8 +10,11 @@ use SoftwarePunt\PhoneHome\Providers\GitVersionInfo;
 use SoftwarePunt\PhoneHome\Providers\NetworkInfo;
 use SoftwarePunt\PhoneHome\Providers\SoftwareInfo;
 use SoftwarePunt\PhoneHome\Providers\StorageInfo;
+use SoftwarePunt\PhoneHome\Status\BaseStatusMonitor;
+use SoftwarePunt\PhoneHome\Status\StatusMonitorCode;
+use SoftwarePunt\PhoneHome\Status\StatusMonitorResult;
 
-class PhoneHome
+final class PhoneHome
 {
     public const string API_BASE_URL_DEFAULT = "https://portal.softwarepunt.nl/api";
     public const float TIMEOUT_SECONDS_DEFAULT = 10.0;
@@ -19,15 +22,19 @@ class PhoneHome
     // -----------------------------------------------------------------------------------------------------------------
     // Common
 
-    private string $apiBaseUrl;
-    private string $token;
-    private int $timeout;
+    /**
+     * @var BaseStatusMonitor[]
+     */
+    private array $statusMonitors;
 
-    public function __construct()
+    public function __construct(private string $apiBaseUrl,
+                                private string $token,
+                                private int    $timeout)
     {
         $this->setApiBaseUrl(self::API_BASE_URL_DEFAULT);
         $this->setToken("");
         $this->setTimeout(self::TIMEOUT_SECONDS_DEFAULT);
+        $this->statusMonitors = [];
     }
 
     public function makeJsonPayload(): array
@@ -39,7 +46,8 @@ class PhoneHome
             'network' => (new NetworkInfo()),
             'git' => (new GitVersionInfo()),
             'software' => (new SoftwareInfo()),
-            'storage' => (new StorageInfo())
+            'storage' => (new StorageInfo()),
+            'statuses' => $this->performStatusMonitors()
         ];
     }
 
@@ -65,6 +73,47 @@ class PhoneHome
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+    // Status monitoring
+
+    public function addStatusMonitor(BaseStatusMonitor $statusMonitor): self
+    {
+        $this->statusMonitors[] = $statusMonitor;
+        return $this;
+    }
+
+    public function performStatusMonitors(): array
+    {
+        $results = [];
+
+        foreach ($this->statusMonitors as $monitor) {
+            try {
+                $result = $monitor->performCheck();
+            } catch (\Throwable $ex) {
+                $result = new StatusMonitorResult(
+                    code: StatusMonitorCode::ERROR,
+                    message: "Unexpected exception in monitor check",
+                    exception: $ex
+                );
+            }
+
+            $results[$monitor->id] = [
+                'id' => $monitor->id,
+                'description' => $monitor->description,
+                'code' => $result->code->value,
+                'message' => $result->message,
+                'exception' => $result->exception ? [
+                    'class' => get_class($result->exception),
+                    'message' => $result->exception->getMessage(),
+                    'trace' => $result->exception->getTraceAsString()
+                ] : null,
+                'color' => $result->code->getColor()
+            ];
+        }
+
+        return $results;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
     // Action
 
     /**
@@ -72,9 +121,9 @@ class PhoneHome
      *
      * Sends a ping to the configured API endpoint, and returns the server response, if any.
      *
-     * @throws GuzzleException In case of request error.
-     * @throws \RuntimeException In case of response error.
      * @return PhoneHomeResponse|null The parsed response from the server, or NULL if the response was empty or invalid.
+     * @throws \RuntimeException In case of response error.
+     * @throws GuzzleException In case of request error.
      */
     public function send(): ?PhoneHomeResponse
     {
