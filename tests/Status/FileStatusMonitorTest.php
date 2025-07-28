@@ -76,4 +76,46 @@ class FileStatusMonitorTest extends TestCase
             @unlink($rndTempFile);
         }
     }
+
+    public function testMonitorWithMinSizeBytes(): void
+    {
+        $rndTempFile = sys_get_temp_dir() . '/' . uniqid('testfile_', true) . '.txt';
+        @unlink($rndTempFile);
+
+        $monitor = new FileStatusMonitor(
+            id: 'test',
+            description: 'test',
+            filePath: $rndTempFile,
+            expectedMinSizeBytes: 1024 // 1 KB
+        );
+
+        try {
+            @touch($rndTempFile);
+            $this->assertFileExists($rndTempFile, 'Sanity check: Temporary file should exist after touch');
+
+            $this->assertEquals(
+                expected: StatusMonitorCode::UNHEALTHY->value,
+                actual: $monitor->performCheck()->code->value,
+                message: 'FileStatusMonitor should return UNHEALTHY for empty file'
+            );
+
+            file_put_contents($rndTempFile, str_repeat('A', 512)); // 512 bytes
+
+            $this->assertEquals(
+                expected: StatusMonitorCode::UNHEALTHY->value,
+                actual: $monitor->performCheck()->code->value,
+                message: 'FileStatusMonitor should return UNHEALTHY for file smaller than expected min size'
+            );
+
+            file_put_contents($rndTempFile, str_repeat('A', 1024)); // 1 KB
+
+            $this->assertEquals(
+                expected: StatusMonitorCode::HEALTHY->value,
+                actual: $monitor->performCheck()->code->value,
+                message: 'FileStatusMonitor should return HEALTHY for file exactly at expected min size'
+            );
+        } finally {
+            @unlink($rndTempFile);
+        }
+    }
 }
