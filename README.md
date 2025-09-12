@@ -86,6 +86,7 @@ The following information is currently collected and sent:
  - Node.JS (`node`)
  - Composer (`composer`)
  - OpenSSL (`openssl`)
+ - vsftpd
 
 ### Status monitors
 

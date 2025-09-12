@@ -22,6 +22,7 @@ class SoftwareInfo implements \JsonSerializable
             'nodejs' => self::getShellResult('node --version'),
             'composer' => self::getShellResult('COMPOSER_ALLOW_SUPERUSER=1 composer --version', onlyFirstLine: true),
             'openssl' => self::getShellResult('openssl version'),
+            'vsftpd' => self::getShellResult('vsftpd -version 0>&1', prefixRemove: "vsftpd: version") // uses stdin for some inexplicable reason
         ];
     }
 
